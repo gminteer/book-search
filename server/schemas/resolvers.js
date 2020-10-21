@@ -27,12 +27,8 @@ module.exports = {
       const token = signToken(user);
       return { token, user };
     },
-    addBook(parent, args, context) {
+    addBook(parent, { book }, context) {
       if (!context.user) throw new AuthenticationError('Not logged in');
-      const { bookId, authors, description, title, image, link } = args;
-      const book = { bookId, authors, description, title, image, link };
-      console.log(context.user);
-      debugger;
       return User.findByIdAndUpdate(
         context.user._id,
         { $addToSet: { savedBooks: book } },
