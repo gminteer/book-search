@@ -16,7 +16,8 @@ module.exports = {
     }
 
     if (!token) {
-      return res.status(400).json({ message: 'You have no token!' });
+      if (next) return res.status(400).json({ message: 'You have no token!' });
+      else return req;
     }
 
     // verify token and get user data out of it
@@ -24,12 +25,13 @@ module.exports = {
       const { data } = jwt.verify(token, secret, { maxAge: expiration });
       req.user = data;
     } catch {
-      console.log('Invalid token');
-      return res.status(400).json({ message: 'invalid token!' });
+      console.warn('Invalid token');
+      if (next) return res.status(400).json({ message: 'invalid token!' });
     }
 
-    // send to next endpoint
-    next();
+    // send to next endpoint if not being run by apollo
+    if (next) next();
+    else return req;
   },
   signToken: function ({ username, email, _id }) {
     const payload = { username, email, _id };
