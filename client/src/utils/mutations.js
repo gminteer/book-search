@@ -33,3 +33,39 @@ export const CREATE_USER = gql`
     }
   }
 `;
+
+export const ADD_BOOK = gql`
+  mutation addBook($book: BookInput!) {
+    addBook(book: $book) {
+      _id
+      username
+      email
+      savedBooks {
+        bookId
+        authors
+        title
+        description
+        image
+        link
+      }
+    }
+  }
+`;
+
+export const REMOVE_BOOK = gql`
+  mutation removeBook($bookId: String!) {
+    removeBook(bookId: $bookId) {
+      _id
+      username
+      email
+      savedBooks {
+        bookId
+        authors
+        title
+        description
+        image
+        link
+      }
+    }
+  }
+`;

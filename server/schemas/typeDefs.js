@@ -3,20 +3,20 @@ const { gql } = require('apollo-server-express');
 module.exports = gql`
   type Book {
     bookId: String!
-    authors: [String]!
+    authors: [String]
     title: String!
     description: String!
-    image: String!
-    link: String!
+    image: String
+    link: String
   }
 
   input BookInput {
     bookId: String!
-    authors: [String]!
+    authors: [String]
     title: String!
     description: String!
-    image: String!
-    link: String!
+    image: String
+    link: String
   }
 
   type User {
