@@ -16,9 +16,9 @@ const SignupForm = () => {
   const [validated] = useState(false);
   // set state for alert
   const [showAlert, setShowAlert] = useState(false);
+  const [errMessage, setErrMessage] = useState('');
+  // use mutation for state
   const [createUser] = useMutation(CREATE_USER);
-  let errMessage = '';
-
   const handleInputChange = (event) => {
     const { name, value } = event.target;
     setUserFormData({ ...userFormData, [name]: value });
@@ -44,13 +44,12 @@ const SignupForm = () => {
       } = await createUser({
         variables: userFormData,
       });
-      console.debug(token);
       if (error) throw error;
       if (loading) return <p>Loading...</p>;
       Auth.login(token);
     } catch (err) {
+      setErrMessage(err.message);
       console.error(err);
-      errMessage = err.message;
       setShowAlert(true);
     }
 
@@ -72,7 +71,7 @@ const SignupForm = () => {
           show={showAlert}
           variant="danger"
         >
-          Something went wrong with your signup!
+          Something went wrong with your signup: "{errMessage}"!
         </Alert>
 
         <Form.Group>

@@ -10,6 +10,8 @@ const LoginForm = () => {
   const [userFormData, setUserFormData] = useState({ email: '', password: '' });
   const [validated] = useState(false);
   const [showAlert, setShowAlert] = useState(false);
+  const [errMessage, setErrMessage] = useState('');
+  // use mutation for state
   const [login] = useMutation(LOGIN_USER);
 
   const handleInputChange = (event) => {
@@ -38,6 +40,8 @@ const LoginForm = () => {
       if (loading) return <p>Loading...</p>;
       Auth.login(token);
     } catch (err) {
+      setErrMessage(err.message);
+      console.error(err);
       setShowAlert(true);
     }
 
@@ -57,7 +61,7 @@ const LoginForm = () => {
           show={showAlert}
           variant="danger"
         >
-          Something went wrong with your login credentials!
+          Something went wrong with your login credentials: "{errMessage}"!
         </Alert>
         <Form.Group>
           <Form.Label htmlFor="email">Email</Form.Label>
