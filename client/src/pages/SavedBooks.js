@@ -42,7 +42,7 @@ const SavedBooks = () => {
   if (loading) return <h2>Loading...</h2>;
 
   console.log(data);
-  const userData = data.me || {};
+  const userData = data?.me || {};
   return (
     <>
       <Jumbotron fluid className="text-light bg-dark">
